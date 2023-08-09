@@ -61,10 +61,10 @@ public class CanvasManager : MonoBehaviour
                     break;
                 case States.Win:
 
-                    if (Game.GetComponent<GameManager>().TimeVal > PlayerPrefs.GetFloat("GameTime", 0))
-                    {
-                        PlayerPrefs.SetFloat("GameTime", Game.GetComponent<GameManager>().TimeVal);
-                    }
+                    // if (Game.GetComponent<GameManager>().TimeVal > PlayerPrefs.GetFloat("GameTime", 0))
+                    // {
+                    //     PlayerPrefs.SetFloat("GameTime", Game.GetComponent<GameManager>().TimeVal);
+                    // }
 
                     if (Session.Instance.CurrentLevel < 8)
                     {
@@ -122,7 +122,10 @@ public class CanvasManager : MonoBehaviour
         Gamestate = States.Main;
 
     }
-    public void Replay() 
+    public void Close() 
+    {
+      Application.Quit();
+    } public void Replay() 
     {
         SoundManager.Instance.PlayOnshootSound(SoundManager.Instance.Click);
         Session.Instance.Replay = true;

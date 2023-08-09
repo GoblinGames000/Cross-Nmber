@@ -18,7 +18,17 @@ public class Distribte : MonoBehaviour
       set
       {
          _DownIndex = value;
-         if(_DownIndex==Vector2.zero) return;
+         if (_DownIndex == Vector2.negativeInfinity)
+         {
+            Debug.Log("Up");
+         
+            return;
+         } if (_DownIndex == GetComponent<Index>().IndexPosition)
+         {
+           
+         
+            return;
+         }
          if (_DownIndex.x ==GetComponent<Index>().IndexPosition.x)
          {
             //Y
@@ -35,28 +45,81 @@ public class Distribte : MonoBehaviour
 
    private void MoveX()
    {
-      Debug.Log("X");
+    
       if (DownIndex.x > GetComponent<Index>().IndexPosition.x)
       {
          LineRenderer R = transform.Find("X").GetComponent<LineRenderer>();
+        
+         int a = (int) ( DownIndex.x-GetComponent<Index>().IndexPosition.x );
+         a -= 1;
+        // Debug.Log(a);
+         if (a == R.GetPosition(1).x)
+         {
+            
+            if (GridData.Instance.GetIndex(DownIndex) == 0)
+            { Debug.Log("X");
+               GetComponentInChildren<Number>().MyNmber -= 1;
+               GridData.Instance.SetGridIndex(DownIndex);
+               R.SetPosition(1, new Vector3(a + 1, R.GetPosition(1).y, 0));
+            }
+         }
       }
 
-     else if (DownIndex.x > GetComponent<Index>().IndexPosition.x)
+     else if (DownIndex.x < GetComponent<Index>().IndexPosition.x)
       {
          LineRenderer R = transform.Find("-X").GetComponent<LineRenderer>();
 
+         int a = (int) ( DownIndex.x-GetComponent<Index>().IndexPosition.x );
+         a += 1;
+         //Debug.Log(a);
+         if (a == R.GetPosition(1).x)
+         {
+            if (GridData.Instance.GetIndex(DownIndex) == 0)
+            {         Debug.Log("-X");
+               GetComponentInChildren<Number>().MyNmber -= 1;
+
+               GridData.Instance.SetGridIndex(DownIndex);
+               R.SetPosition(1, new Vector3(a - 1, R.GetPosition(1).y, 0));
+            }
+         }
       }
    } 
    private void MoveY()
    {
-      Debug.Log("Y");
       if (DownIndex.y > GetComponent<Index>().IndexPosition.y)
       {
          LineRenderer R = transform.Find("Y").GetComponent<LineRenderer>();
+         int a = (int) ( DownIndex.y-GetComponent<Index>().IndexPosition.y );
+         a -= 1;
+       //  Debug.Log(a);
+         if (a == R.GetPosition(1).y)
+         {
+            if (GridData.Instance.GetIndex(DownIndex) == 0)
+            {         Debug.Log("Y");
+               GetComponentInChildren<Number>().MyNmber -= 1;
+
+               GridData.Instance.SetGridIndex(DownIndex);
+               R.SetPosition(1, new Vector3(R.GetPosition(1).x, a + 1, 0));
+            }
+         }
       }
      else if (DownIndex.y < GetComponent<Index>().IndexPosition.y)
       {
          LineRenderer R = transform.Find("-Y").GetComponent<LineRenderer>();
+         int a = (int) ( DownIndex.y-GetComponent<Index>().IndexPosition.y );
+         a += 1;
+        // Debug.Log(a);
+         if (a == R.GetPosition(1).y)
+         {
+            if (GridData.Instance.GetIndex(DownIndex) == 0)
+            {
+               Debug.Log("-Y");
+               GetComponentInChildren<Number>().MyNmber -= 1;
+
+               GridData.Instance.SetGridIndex(DownIndex);
+               R.SetPosition(1, new Vector3(R.GetPosition(1).x, a - 1, 0));
+            }
+         }
 
       }
 
@@ -70,7 +133,7 @@ public class Distribte : MonoBehaviour
    private void OnMouseUp()
    {
       Pressed = false;
-      DownIndex=Vector2.zero;
+      DownIndex=Vector2.negativeInfinity;
 
 
    }
